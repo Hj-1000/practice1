@@ -27,6 +27,8 @@ dependencies {
 
     //테스트
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation("org.junit.vintage:junit-vintage-engine") {
+        exclude group: "org.hamcrest", module: "hamcrest-core"}
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
