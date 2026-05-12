@@ -21,9 +21,16 @@ dependencies {
     // 웹 애플리케이션 개발
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    // JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
     // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+
+    //db 설정
+    runtimeOnly 'com.h2database:h2'
 
     // 테스트
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
