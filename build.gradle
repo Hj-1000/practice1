@@ -18,21 +18,15 @@ repositories {
 }
 
 dependencies {
+    // 웹 애플리케이션 개발
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    //라이브러리
+    // Lombok
     compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
-    //웹 어플리케이션 개발
-    testImplementation platform('org.junit:junit-bom:6.0.0')
-
-
-    //테스트
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    testImplementation("org.junit.vintage:junit-vintage-engine") {
-        exclude group: "org.hamcrest", module: "hamcrest-core"}
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // 테스트
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
