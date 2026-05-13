@@ -1,5 +1,6 @@
 package com.jeonhong.book.springboot.domain.posts;
 
+import com.jeonhong.book.springboot.domain.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter     // Entity class에서는 Setter를 만들지 않는다.
 @NoArgsConstructor
 @Entity
-public class Posts {
+public class Posts extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
