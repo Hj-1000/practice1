@@ -46,7 +46,8 @@ public class PostsRepositoryTest {
     @Test
     public void BaseTimeEntity_등록(){
         //given
-        LocalDateTime now = LocalDateTime.now();
+        // withNano(0)을 붙여서 나노초 차이를 초기화함
+        LocalDateTime now = LocalDateTime.now().withNano(0);
         postsRepository.save(Posts.builder()
                 .title("title")
                 .content("content")
