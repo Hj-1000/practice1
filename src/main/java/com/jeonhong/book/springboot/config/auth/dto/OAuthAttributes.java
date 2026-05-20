@@ -27,6 +27,9 @@ public class OAuthAttributes {
     public static OAuthAttributes of(String registrationId,
                                      String usernameAttributeName,
                                      Map<String, Object> attributes){
+        if("naver".equals(registrationId)){
+            return ofNaver("id", attributes);
+        }
         return ofGoogle(usernameAttributeName, attributes);
     }
 
@@ -41,12 +44,26 @@ public class OAuthAttributes {
 
     }
 
+        private static OAuthAttributes ofNaver(String usernameAttributeName, Map<String, Object> attributes){
+
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+
+        return OAuthAttributes.builder()
+                .name((String) response.get("name"))
+                .email((String) response.get("email"))
+                .picture((String) response.get("profile_image"))
+                .attributes(response)
+                .nameAttributeKey(usernameAttributeName)
+                .build();
+
+    }
+
     public User toEntity(){
         return User.builder()
                 .name(name)
                 .email(email)
                 .picture(picture)
-                .role(Role.GUEST)
+                .role(Role.USER) // 테스트를 쉽게 하기 위해 로그인 하면 바로 USER 인걸로 했음 기존 Role.GUEST
                 .build();
     }
 }
