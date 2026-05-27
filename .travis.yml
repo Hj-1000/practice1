@@ -1,0 +1,26 @@
+language: java
+jdk:
+  - openjdk21 # 사용 중인 JDK 버전
+
+branches:
+  only:
+    - master # 빌드를 수행할 브라우저(브랜치) 이름
+
+# Travis CI 서버의 의존성 라이브러리 캐시 설정
+cache:
+  directories:
+    - $HOME/.m2/repository
+    - $HOME/.gradle
+
+# 빌드 수행 전 실행 권한 부여
+before_install:
+  - chmod +x gradlew
+
+# Gradle 프로젝트 기준 빌드 명령어
+script: "./gradlew clean build"
+
+# CI 실행 완료 시 메일로 알람
+notifications:
+  email:
+    recipients:
+      - cjsguswhd1369@gmail.com
