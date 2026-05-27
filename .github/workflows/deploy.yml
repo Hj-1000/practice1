@@ -20,11 +20,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. 가상 환경에 Java 17(OpenJDK)을 설치합니다.
-      - name: Set up JDK 17
+      # 2. 가상 환경에 Java 21(OpenJDK)을 설치합니다.
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
 
       # 3. Gradle 빌드 속도를 높이기 위해 의존성 라이브러리를 캐시합니다. (Travis의 cache 기능과 동일)
