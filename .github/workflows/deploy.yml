@@ -3,7 +3,8 @@ name: Java CI with Gradle
 on:
   push:
     branches: [ "master" ]
-  pull_request: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
 permissions:
   contents: read
@@ -17,14 +18,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Java 21 설치 (기존 설정 유지)
+      # 2. Java 21 설치
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
 
-      # 3. 라이브러리 캐싱 (기존 설정 유지 - 빌드 속도 향상)
+      # 3. 라이브러리 캐싱 (빌드 속도 향상)
       - name: Gradle Caching
         uses: actions/cache@v4
         with:
@@ -35,15 +36,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      # 4. 실행 권한 부여 (기존 설정 유지)
+      # 4. 실행 권한 부여
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # 5. 프로젝트 빌드 (기존 설정 유지 - 테스트까지 검증)
+      # 5. 프로젝트 빌드 (테스트까지 검증)
       - name: Build with Gradle
         run: ./gradlew clean build
-
-      # ---------------- 여기서부터 AWS S3 업로드를 위해 추가되는 영역 ---------------- #
 
       # 6. AWS 자격 증명 설정 (GitHub Secrets 키 사용)
       - name: Configure AWS credentials
@@ -54,7 +53,6 @@ jobs:
           aws-region: ap-northeast-2
 
       # 7. 배포할 파일들을 zip 압축 파일로 묶기
-      # (나중에 AWS CodeDeploy가 인식할 수 있도록 압축하는 실무 표준 단계입니다.)
       - name: Package application
         run: |
           mkdir -p deploy
