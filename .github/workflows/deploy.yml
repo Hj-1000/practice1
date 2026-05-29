@@ -58,6 +58,7 @@ jobs:
           mkdir -p deploy
           cp build/libs/*.jar deploy/
           cp appspec.yml deploy/
+          cp -r scripts deploy/
           zip -r ./practice1-build.zip ./deploy
 
       # 8. AWS S3에 압축 파일 업로드
