@@ -52,14 +52,24 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      # 7. 배포할 파일들을 zip 압축 파일로 묶기
+      # 7. 배포할 파일들을 zip 압축 파일로 묶기 (appspec.yml 포함 필수!)
       - name: Package application
         run: |
           mkdir -p deploy
           cp build/libs/*.jar deploy/
+          cp appspec.yml deploy/
           zip -r ./practice1-build.zip ./deploy
 
       # 8. AWS S3에 압축 파일 업로드
       - name: Upload to AWS S3
         run: |
           aws s3 cp practice1-build.zip s3://freelec-springboot-build-929812812094-ap-northeast-2-an/practice1-build.zip
+
+      # 9. AWS CodeDeploy에게 배포 명령 전달
+      - name: Deploy to AWS CodeDeploy
+        run: |
+          aws deploy create-deployment \
+            --application-name freelec-springboot2-webservice \
+            --deployment-config-name CodeDeployDefault.AllAtOnce \
+            --deployment-group-name freelec-springboot2-webservice-group \
+            --s3-location bucket=freelec-springboot-build-929812812094-ap-northeast-2-an,bundleType=zip,key=practice1-build.zip
