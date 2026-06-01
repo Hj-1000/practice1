@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.jeonhong.book'
-version = '1.0.2-SNAPSHOT'
+version = "1.0.2-SNAPSHOT-${new Date().format('yyyy.MMddHHmmss')}"
 
 java {
     toolchain {
@@ -55,4 +55,9 @@ test {
 
 jar {
     enabled = false
+}
+
+tasks.named('bootJar') {
+    // 버전을 제외하고 프로젝트 이름만으로 jar 파일명을 고정합니다. (ex: practice1.jar)
+    archiveFileName = "${archiveBaseName.get()}.jar"
 }
