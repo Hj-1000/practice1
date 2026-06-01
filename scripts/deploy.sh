@@ -12,7 +12,9 @@ CURRENT_PID=$(pgrep -f "java -jar.*$PROJECT_NAME" | awk '{print $1}')
 
 echo "> 현재 구동 중인 애플리케이션 pid: $CURRENT_PID"
 
-if [ -z "$CURRENT_PID" ]; then
+if [ -z "$CURRENT_PID" ];
+
+then
     echo "> 현재 구동중인 애플리케이션이 없으므로 종료하지 않습니다."
 else
     echo "> kill -15 $CURRENT_PID"
@@ -29,8 +31,17 @@ echo "> JAR Name: $JAR_NAME"
 echo "> JAR Name 에 실행권한 추가"
 chmod +x $JAR_NAME
 
+if [ 'real1' = $(curl -s http://localhost/profile) ];
+
+then
+    IDLE_PROFILE=real2
+else
+    IDLE_PROFILE=real1
+fi
+
+
 echo "> $JAR_NAME 실행"
 nohup java -jar \
     -Dspring.config.location=classpath:/application.properties,classpath:/application-real.properties,/home/ec2-user/app/application-oauth.properties,/home/ec2-user/app/application-real-db.properties \
-    -Dspring.profiles.active=real \
+    -Dspring.profiles.active=$IDLE_PROFILE \
     $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &

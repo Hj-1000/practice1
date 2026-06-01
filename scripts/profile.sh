@@ -5,7 +5,6 @@ function find_idle_profile()
 {
   RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/profile)
 
-  # ⭐️ 400 뒤에 공백 한 칸 필수!
   if [ ${RESPONSE_CODE} -ge 400 ]
   then
     CURRENT_PROFILE=real2
