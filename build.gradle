@@ -44,6 +44,9 @@ dependencies {
     implementation("org.mariadb.jdbc:mariadb-java-client:3.5.7")
     runtimeOnly 'com.h2database:h2'
 
+    // AWS S3 연동을 위한 의존성 추가
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3:3.3.0'
+
     // 테스트
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
