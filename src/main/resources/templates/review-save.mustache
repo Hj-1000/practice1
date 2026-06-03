@@ -1,0 +1,66 @@
+{{>layout/header}}
+
+<div class="container mt-4">
+    <h1 class="font-weight-bold">맛집 기록 사이트</h1>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="input-group mb-3">
+                <input type="text" id="search-keyword" class="form-control" placeholder="맛집 이름을 검색하세요 (예: 부천 맛집)">
+                <button class="btn btn-primary" type="button" id="btn-search">검색</button>
+            </div>
+            <div id="map" style="width: 100%; height: 400px; display: block; position: relative; background-color: #eee;" class="mb-3 shadow-sm rounded"></div>
+            <ul id="places-list" class="list-group mb-4" style="max-height: 200px; overflow-y: auto"></ul>
+        </div>
+
+        <div class="col-md-6">
+            <form>
+                <input type="hidden" id="kakaoPlaceId">
+                <input type="hidden" id="latitude">
+                <input type="hidden" id="longitude">
+
+                <div class="mb-3">
+                    <label for="placeName" class="form-label font-weight-bold">가게 이름</label>
+                    <input type="text" class="form-control" id="placeName" readonly placeholder="지도에서 가게를 선택하면 자동 입력됩니다.">
+                </div>
+                <div class="mb-3">
+                    <label for="category" class="form-label font-weight-bold">카테고리</label>
+                    <input type="text" class="form-control" id="category" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="addressName" class="form-label font-weight-bold">주소</label>
+                    <input type="text" class="form-control" id="addressName" readonly>
+                </div>
+                <hr>
+                <div class="mb-3">
+                    <label for="rating" class="form-label font-weight-bold text-primary">⭐ 평점 (1~5점)</label>
+                    <select class="form-select" id="rating"> <option value="5">⭐⭐⭐⭐⭐ (최고)</option>
+                        <option value="4">⭐⭐⭐⭐ (만족)</option>
+                        <option value="3">⭐⭐⭐ (보통)</option>
+                        <option value="2">⭐⭐ (그저 그럼)</option>
+                        <option value="1">⭐ (별로)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="visitDate" class="form-label font-weight-bold">방문 날짜</label>
+                    <input type="date" class="form-control" id="visitDate">
+                </div>
+                <div class="mb-3">
+                    <label for="imageFile" class="form-label font-weight-bold">사진 업로드</label>
+                    <input type="file" class="form-control" id="imageFile" accept="image/*">
+                </div>
+                <div class="mb-3">
+                    <label for="content" class="form-label font-weight-bold">식당 후기</label>
+                    <textarea class="form-control" id="content" rows="3" placeholder="음식 맛, 분위기 등 소중한 기억을 적어주세요."></textarea>
+                </div>
+
+                <button type="button" class="btn btn-success w-100 py-2 font-weight-bold" id="btn-save-review">기록 저장하기</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1843341f7d02e98732f371350e2138a1&libraries=services"></script>
+
+{{>layout/footer}}

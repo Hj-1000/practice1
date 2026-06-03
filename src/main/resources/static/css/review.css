@@ -1,0 +1,10 @@
+/* 라디오 버튼의 기본 동그라미 표식을 강제로 숨김 */
+.btn-group .btn-check {
+    display: none !important;
+}
+
+/* 부트스트랩 4 이하 버전 대응: 라디오 버튼이 체크되었을 때 우측 레이블 버튼의 하이라이트 스타일 구동 */
+.btn-group .btn-check:checked + .btn-outline-primary {
+    background-color: #0d6efd !important;
+    color: #fff !important;
+}
