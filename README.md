@@ -40,6 +40,5 @@ graph LR
     Nginx -->|Proxy| App[Spring Boot]
     App -->|Data| DB[MariaDB / AWS RDS]
 
----
 
 
