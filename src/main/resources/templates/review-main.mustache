@@ -50,11 +50,22 @@
                                 📍 {{addressName}}
                             </p>
 
-                            {{#imageUrl}}
-                                <div class="mb-3 overflow-hidden rounded" style="max-height: 180px;">
-                                    <img src="{{imageUrl}}" class="w-100 h-100 object-fit-cover" alt="리뷰 이미지" style="object-fit: cover;">
-                                </div>
-                            {{/imageUrl}}
+                            <div class="card-img-top overflow-hidden" style="height: 200px; background-color: #eee;">
+                                {{#imageUrls.0}}
+                                    <div class="position-relative">
+                                        <img src="{{imageUrls.0}}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                                        {{#imageUrls.1}} <span class="position-absolute top-0 end-0 m-2 badge bg-dark bg-opacity-75">
+            +{{.}}개
+        </span>
+                                        {{/imageUrls.1}}
+                                    </div>
+                                {{/imageUrls.0}}
+                                {{^imageUrls.0}}
+                                    <div class="d-flex align-items-center justify-content-center h-100 text-muted">
+                                        <i class="bi bi-image fs-1">이미지 없음</i>
+                                    </div>
+                                {{/imageUrls.0}}
+                            </div>
 
                             <hr class="my-2" style="border-top: 1px dashed #ddd;">
 
