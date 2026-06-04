@@ -64,7 +64,7 @@ public class ReviewServiceTest {
                 .rating(5)
                 .visitDate(LocalDate.now())
                 .content("인생 족발집입니다. 너무 맛있어요!")
-                .imageUrl(null)
+                .imageUrls(null)
                 .build();
 
         // when
