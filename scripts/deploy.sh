@@ -40,8 +40,8 @@ else
 fi
 
 
-echo "> $JAR_NAME 실행"
+echo "> $JAR_NAME 실행 (Port: $IDLE_PORT 로 실행 시도)"
 nohup java -jar \
-    -Dspring.config.location=/home/ec2-user/app/application-oauth.properties,/home/ec2-user/app/application-real-db.properties \
+    -Dspring.config.location=classpath:/application.properties,classpath:/application-real.properties,/home/ec2-user/app/application-oauth.properties,/home/ec2-user/app/application-real-db.properties,/home/ec2-user/app/application-$IDLE_PROFILE.properties \
     -Dspring.profiles.active=$IDLE_PROFILE \
     $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
