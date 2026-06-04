@@ -1,62 +1,85 @@
 {{>layout/header}}
 
-<div class="container mt-4">
-    <h1 class="font-weight-bold">맛집 기록 사이트</h1>
-    <hr>
+<div class="container mt-5" style="max-width: 1140px;">
+    <div class="mb-4">
+        <h2 class="fw-bold" style="color: var(--feed-text-dark);">🍽️ 새로운 미식 기억하기</h2>
+        <p class="text-muted small">지도를 통해 방문했던 가게를 선택하고 생생한 후기를 남겨보세요.</p>
+    </div>
+    <hr class="mb-4" style="border-color: #eaeef2;">
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="input-group mb-3">
-                <input type="text" id="search-keyword" class="form-control" placeholder="맛집 이름을 검색하세요 (예: 부천 맛집)">
-                <button class="btn btn-primary" type="button" id="btn-search">검색</button>
+    <div class="row g-4">
+        <div class="col-lg-5">
+            <div class="bg-white p-4 rounded-4 border shadow-sm" style="border-color: #eaeef2 !important;">
+                <h5 class="fw-bold mb-3" style="font-size: 1.1rem;"><i class="fa-solid fa-magnifying-glass text-muted me-2"></i>식당 검색</h5>
+                <div class="input-group mb-3">
+                    <input type="text" id="search-keyword" class="form-control border-end-0 rounded-start-3" placeholder="예: 부천역 맛집, 파스타">
+                    <button class="btn border border-start-0 px-4 rounded-end-3" type="button" id="btn-search" style="background-color: var(--feed-text-dark); color: white;">검색</button>
+                </div>
+                <div id="map" style="width: 100%; height: 350px; display: block; position: relative; background-color: #f8f9fa;" class="mb-3 rounded-3 border"></div>
+
+                <span class="small text-muted d-block mb-2">💡 검색 결과 목록</span>
+                <ul id="places-list" class="list-group rounded-3" style="max-height: 180px; overflow-y: auto; border: 1px solid #f1f5f9;"></ul>
             </div>
-            <div id="map" style="width: 100%; height: 400px; display: block; position: relative; background-color: #eee;" class="mb-3 shadow-sm rounded"></div>
-            <ul id="places-list" class="list-group mb-4" style="max-height: 200px; overflow-y: auto"></ul>
         </div>
 
-        <div class="col-md-6">
-            <form>
-                <input type="hidden" id="kakaoPlaceId">
-                <input type="hidden" id="latitude">
-                <input type="hidden" id="longitude">
+        <div class="col-lg-7">
+            <div class="bg-white p-4 rounded-4 border shadow-sm" style="border-color: #eaeef2 !important;">
+                <form>
+                    <input type="hidden" id="kakaoPlaceId">
+                    <input type="hidden" id="latitude">
+                    <input type="hidden" id="longitude">
 
-                <div class="mb-3">
-                    <label for="placeName" class="form-label font-weight-bold">가게 이름</label>
-                    <input type="text" class="form-control" id="placeName" readonly placeholder="지도에서 가게를 선택하면 자동 입력됩니다.">
-                </div>
-                <div class="mb-3">
-                    <label for="category" class="form-label font-weight-bold">카테고리</label>
-                    <input type="text" class="form-control" id="category" readonly>
-                </div>
-                <div class="mb-3">
-                    <label for="addressName" class="form-label font-weight-bold">주소</label>
-                    <input type="text" class="form-control" id="addressName" readonly>
-                </div>
-                <hr>
-                <div class="mb-3">
-                    <label for="rating" class="form-label font-weight-bold text-primary">⭐ 평점 (1~5점)</label>
-                    <select class="form-select" id="rating"> <option value="5">⭐⭐⭐⭐⭐ (최고)</option>
-                        <option value="4">⭐⭐⭐⭐ (만족)</option>
-                        <option value="3">⭐⭐⭐ (보통)</option>
-                        <option value="2">⭐⭐ (그저 그럼)</option>
-                        <option value="1">⭐ (별로)</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="visitDate" class="form-label font-weight-bold">방문 날짜</label>
-                    <input type="date" class="form-control" id="visitDate">
-                </div>
-                <div class="mb-3">
-                    <label for="imageFiles" class="form-label font-weight-bold">사진 업로드 (여러 장 가능)</label>
-                    <input type="file" class="form-control" id="imageFiles" name="imageFiles" multiple accept="image/*">
-                </div>
-                <div class="mb-3">
-                    <label for="content" class="form-label font-weight-bold">식당 후기</label>
-                    <textarea class="form-control" id="content" rows="3" placeholder="음식 맛, 분위기 등 소중한 기억을 적어주세요."></textarea>
-                </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="placeName" class="form-label fw-bold small text-secondary">가게 이름</label>
+                            <input type="text" class="form-control bg-light rounded-3 py-2" id="placeName" readonly placeholder="지도를 선택하세요.">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="category" class="form-label fw-bold small text-secondary">카테고리</label>
+                            <input type="text" class="form-control bg-light rounded-3 py-2" id="category" readonly>
+                        </div>
+                    </div>
 
-                <button type="button" class="btn btn-success w-100 py-2 font-weight-bold" id="btn-save-review">기록 저장하기</button>
-            </form>
+                    <div class="mb-3">
+                        <label for="addressName" class="form-label fw-bold small text-secondary">식당 주소</label>
+                        <input type="text" class="form-control bg-light rounded-3 py-2" id="addressName" readonly>
+                    </div>
+
+                    <hr class="my-4" style="border-style: dashed;">
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="rating" class="form-label fw-bold small text-primary">⭐ 내 평점</label>
+                            <select class="form-select rounded-3 py-2" id="rating" style="border-color: rgba(255, 107, 53, 0.3);">
+                                <option value="5">⭐⭐⭐⭐⭐ (최고의 선택)</option>
+                                <option value="4">⭐⭐⭐⭐ (다시 가고 싶음)</option>
+                                <option value="3">⭐⭐⭐ (무난하고 보통)</option>
+                                <option value="2">⭐⭐ (조금 아쉬움)</option>
+                                <option value="1">⭐ (추천하지 않음)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="visitDate" class="form-label fw-bold small text-secondary">방문 일자</label>
+                            <input type="date" class="form-control rounded-3 py-2" id="visitDate">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="imageFiles" class="form-label fw-bold small text-secondary">📸 현장 사진 첨부 (다중 선택 가능)</label>
+                        <input type="file" class="form-control rounded-3" id="imageFiles" name="imageFiles" multiple accept="image/*">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="content" class="form-label fw-bold small text-secondary">맛과 분위기에 대한 상세 기록</label>
+                        <textarea class="form-control rounded-3 p-3" id="content" rows="4" placeholder="식당의 분위기, 추천 메뉴 등 기억에 남는 순간을 자유롭게 남겨주세요."></textarea>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <a href="/reviews" class="btn btn-light border py-2 text-muted fw-semibold" style="width: 25%;">이전으로</a>
+                        <button type="button" class="btn py-2 fw-bold text-white flex-grow-1 rounded-3" id="btn-save-review" style="background-color: var(--feed-primary);">이 기록 영구 저장하기</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

@@ -1,61 +1,78 @@
 {{>layout/header}}
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1843341f7d02e98732f371350e2138a1&libraries=services&autoload=false"></script>
 
-<div class="container mt-4">
+<div class="container mt-5" style="max-width: 1140px;">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="font-weight-bold">📌 우리들의 맛집 피드</h2>
         <div>
-            <a href="/" class="btn btn-secondary me-2">메인으로</a>
-            <a href="/review/save" class="btn btn-primary">새 맛집 등록하기</a>
+            <h2 class="fw-bold tracking-tight" style="color: var(--feed-text-dark); font-size: 1.8rem;">📌 우리들의 맛집 피드</h2>
+            <p class="text-muted small m-0">소중한 사람들과 함께한 미식의 기록들을 지도로 확인해보세요.</p>
+        </div>
+        <div>
+            <a href="/" class="btn btn-light border fw-semibold me-2 px-3">메인으로</a>
+            <a href="/review/save" class="btn fw-semibold px-4" style="background-color: var(--feed-primary); color: white;">새 맛집 등록</a>
         </div>
     </div>
 
-    <div id="main-map" style="width: 100%; height: 450px; display: block; background-color: #eee; border-radius: 15px;" class="mb-5 shadow-sm"></div>
+    <div id="main-map" style="width: 100%; height: 420px; display: block; background-color: #f8f9fa; border-radius: 20px; border: 1px solid #e1e4e6;" class="mb-4 shadow-sm"></div>
 
     {{#reviewsJson}}
         <input type="hidden" id="reviews-json-data" value="{{reviewsJson}}">
     {{/reviewsJson}}
 
-    <div class="d-flex justify-content-center mb-5">
-        <div class="btn-group" role="group" aria-label="Category Filter">
-            <input type="radio" class="btn-check" name="btnradio" id="filter-all" autocomplete="off" checked><label class="btn btn-outline-primary px-4" for="filter-all">전체보기 🗺️</label>
-            <input type="radio" class="btn-check" name="btnradio" id="filter-food" autocomplete="off" data-category="음식점"><label class="btn btn-outline-primary px-4" for="filter-food">음식점 🍔</label>
-            <input type="radio" class="btn-check" name="btnradio" id="filter-etc" autocomplete="off" data-category="기타"><label class="btn btn-outline-primary px-4" for="filter-etc">기타/여행 🎈</label>
+    <div class="d-flex justify-content-between align-items-center mb-4 bg-white p-3 rounded-4 border" style="border-color: #eaeef2 !important;">
+        <div class="btn-group gap-2" role="group" aria-label="Category Filter">
+            <input type="radio" class="btn-check" name="btnradio" id="filter-all" autocomplete="off" checked>
+            <label class="btn btn-outline-primary rounded-3 px-4 py-2" for="filter-all">전체보기 🗺️</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="filter-food" autocomplete="off" data-category="음식점">
+            <label class="btn btn-outline-primary rounded-3 px-4 py-2" for="filter-food">음식점 🍔</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="filter-etc" autocomplete="off" data-category="기타">
+            <label class="btn btn-outline-primary rounded-3 px-4 py-2" for="filter-etc">기타/여행 🎈</label>
         </div>
         <div>
             <input type="checkbox" class="btn-check" id="filter-nearby" autocomplete="off">
-            <label class="btn btn-outline-danger px-4" for="filter-nearby">내 주변 1km 📍</label>
+            <label class="btn btn-outline-danger rounded-3 px-4 py-2" for="filter-nearby">내 주변 1km 📍</label>
         </div>
     </div>
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="review-card-list">
         {{#reviews}}
-            <div class="col mb-4">
+            <div class="col">
                 <a href="/reviews/update/{{id}}" class="text-decoration-none" style="display: block; height: 100%;">
-                    <div class="card h-100 shadow-sm border-0" style="border-radius: 12px; background-color: #fcfcfc;">
-                        <div class="card-body">
-                            <h5 class="card-title font-weight-bold" style="color: #222;">
-                                {{placeName}} <span class="badge bg-info text-dark" style="font-size: 0.7rem;">{{category}}</span>
-                            </h5>
-                            <p class="card-text text-warning mb-1" style="font-size: 1.1rem;">{{ratingStars}}</p>
-                            <p class="card-text text-muted small mb-3">📍 {{addressName}}</p>
+                    <div class="card h-100 feed-card">
+                        <div class="card-img-top overflow-hidden position-relative" style="height: 220px; background-color: #f3f4f6;">
+                            {{#imageUrls.0}}
+                                <img src="{{imageUrls.0}}" class="w-100 h-100 transition-transform" style="object-fit: cover;" alt="맛집 이미지">
+                            {{/imageUrls.0}}
+                            {{^imageUrls.0}}
+                                <div class="d-flex flex-column align-items-center justify-content-center h-100 text-muted">
+                                    <i class="fa-solid fa-utensils mb-2" style="font-size: 1.5rem; color: #cbd5e1;"></i>
+                                    <span class="small">등록된 사진이 없습니다</span>
+                                </div>
+                            {{/imageUrls.0}}
+                        </div>
 
-                            <div class="card-img-top overflow-hidden" style="height: 200px; background-color: #eee;">
-                                {{#imageUrls.0}}
-                                    <img src="{{imageUrls.0}}" class="w-100 h-100" style="object-fit: cover;" alt="이미지">
-                                {{/imageUrls.0}}
-                                {{^imageUrls.0}}
-                                    <div class="d-flex align-items-center justify-content-center h-100 text-muted">
-                                        <span>이미지 없음</span>
-                                    </div>
-                                {{/imageUrls.0}}
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-start justify-content-between mb-2">
+                                <h5 class="fw-bold m-0 text-truncate" style="color: var(--feed-text-dark); max-width: 70%;">
+                                    {{placeName}}
+                                </h5>
+                                <span class="badge rounded-pill px-2 py-1" style="font-size: 0.75rem; background-color: #f1f5f9; color: var(--feed-text-muted);">{{category}}</span>
                             </div>
 
-                            <hr class="my-3">
-                            <p class="card-text text-dark" style="min-height: 3rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">{{content}}</p>
+                            <p class="card-text star-rating mb-2">{{ratingStars}}</p>
+                            <p class="card-text text-muted small mb-3"><i class="fa-solid fa-location-dot me-1"></i> {{addressName}}</p>
+
+                            <hr style="border-color: #f1f5f9;">
+
+                            <p class="card-text mt-3" style="color: #48525f; font-size: 0.95rem; min-height: 4.2rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.5;">
+                                {{content}}
+                            </p>
                         </div>
-                        <div class="card-footer bg-transparent border-top-0 text-end">
-                            <small class="text-muted">🕒 방문일: {{visitDate}}</small>
+
+                        <div class="card-footer bg-white border-0 px-4 pb-4 pt-0 text-end">
+                            <span class="text-muted" style="font-size: 0.8rem;"><i class="fa-regular fa-calendar me-1"></i> {{visitDate}}</span>
                         </div>
                     </div>
                 </a>
@@ -63,8 +80,9 @@
         {{/reviews}}
     </div>
 
-    <div id="no-reviews-message" class="col-12 py-5 text-center" style="display:none;">
-        <p class="text-muted fs-5 m-0">주변에 기록된 맛집이 없습니다. 🍽️</p>
+    <div id="no-reviews-message" class="col-12 py-5 text-center" style="display:none; background: white; border-radius: 16px; border: 1px dashed #cbd5e1;">
+        <i class="fa-solid fa-folder-open text-muted mb-3" style="font-size: 2.5rem;"></i>
+        <p class="text-muted fs-5 m-0">주변 공간에 기록된 맛집 목록이 비어 있습니다. 🍽️</p>
     </div>
 </div>
 

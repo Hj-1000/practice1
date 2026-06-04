@@ -1,16 +1,75 @@
+/* 맛집 피드 전용 시그니처 컬러 테마 */
+:root {
+    --feed-primary: #ff6b35;       /* 따뜻한 테라코타 오렌지 (포인트/저장) */
+    --feed-success: #2ec4b6;       /* 활기찬 민트 그린 (필터/내주변) */
+    --feed-bg-card: #ffffff;
+    --feed-text-dark: #24292f;
+    --feed-text-muted: #57606a;
+    --feed-star: #ffb020;          /* 고급스러운 골드 옐로우 */
+}
+
 /* 라디오 버튼의 기본 동그라미 표식을 강제로 숨김 */
 .btn-group .btn-check {
     display: none !important;
 }
 
-/* 부트스트랩 4 이하 버전 대응: 라디오 버튼이 체크되었을 때 우측 레이블 버튼의 하이라이트 스타일 구동 */
-.btn-group .btn-check:checked + .btn-outline-primary {
-    background-color: #0d6efd !important;
-    color: #fff !important;
+/* 커스텀 필터 버튼 디자인 스타일링 (기능 구조 유지) */
+.btn-group .btn-outline-primary {
+    color: var(--feed-text-muted) !important;
+    border-color: #e1e4e6 !important;
+    background-color: #fff !important;
+    font-weight: 600;
+    transition: all 0.2s ease;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    transition: transform 0.2s ease-in-out;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+.btn-group .btn-check:checked + .btn-outline-primary {
+    background-color: var(--feed-primary) !important;
+    border-color: var(--feed-primary) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+}
+
+/* 내 주변 필터 토글 스타일 */
+#filter-nearby + .btn-outline-danger {
+    color: var(--feed-text-muted) !important;
+    border-color: #e1e4e6 !important;
+    background-color: #fff !important;
+    font-weight: 600;
+}
+
+#filter-nearby:checked + .btn-outline-danger {
+    background-color: var(--feed-success) !important;
+    border-color: var(--feed-success) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 12px rgba(46, 196, 182, 0.2);
+}
+
+/* 피드 카드 컴포넌트 고도화 */
+.feed-card {
+    border-radius: 16px !important;
+    border: 1px solid #eaeef2 !important;
+    background-color: var(--feed-bg-card);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+}
+
+.feed-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 28px rgba(140, 149, 159, 0.15) !important;
+    border-color: rgba(255, 107, 53, 0.3) !important;
+}
+
+/* 별점 색상 커스텀 */
+.star-rating {
+    color: var(--feed-star) !important;
+    font-weight: bold;
+}
+
+/* 커스텀 스크롤바 (플레이스 리스트용) */
+#places-list::-webkit-scrollbar {
+    width: 6px;
+}
+#places-list::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
 }
