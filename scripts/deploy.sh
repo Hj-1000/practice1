@@ -42,6 +42,6 @@ fi
 
 echo "> $JAR_NAME 실행"
 nohup java -jar \
-    -Dspring.config.location=classpath:/application.properties,classpath:/application-real-db.properties,classpath:/application-oauth.properties,/home/ec2-user/app/application-oauth.properties,/home/ec2-user/app/application-real-db.properties \
+    -Dspring.config.location=classpath:/application.properties,classpath:/application-real.properties,/home/ec2-user/app/application-oauth.properties,/home/ec2-user/app/application-real-db.properties \
     $JAR_NAME \
     --spring.profiles.active=$IDLE_PROFILE > $REPOSITORY/nohup.out 2>&1 &
