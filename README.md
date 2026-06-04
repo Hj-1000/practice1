@@ -40,7 +40,7 @@ graph LR
     Nginx -->|Proxy| App[Spring Boot]
     App -->|Data| DB[MariaDB / AWS RDS]
 
-
+---
 
 💡 Troubleshooting (주요 이슈 해결)
 1. HTTPS 적용 및 리다이렉션 이슈
