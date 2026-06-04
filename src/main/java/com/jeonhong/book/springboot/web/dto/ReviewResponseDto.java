@@ -4,6 +4,8 @@ import com.jeonhong.book.springboot.domain.review.Review;
 import lombok.Getter;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class ReviewResponseDto {
@@ -17,7 +19,7 @@ public class ReviewResponseDto {
     private String ratingStars; // 숫자를 별(⭐)로 변환한 문자열
     private String visitDate;   // 머스타치에서 포맷팅하기 편하도록 String 변환
     private String content;
-    private String imageUrl;
+    private List<String> imageUrls;
 
     public ReviewResponseDto(Review entity) {
         this.id = entity.getId();
@@ -27,7 +29,9 @@ public class ReviewResponseDto {
         this.latitude = entity.getPlace().getLatitude();
         this.longitude = entity.getPlace().getLongitude();
         this.content = entity.getContent();
-        this.imageUrl = entity.getImageUrl();
+        this.imageUrls = entity.getImages().stream()
+                .map(image -> image.getImageUrl())
+                .collect(Collectors.toList());
 
         // 날짜 예쁘게 변환 (예: 2026.06.02)
         if (entity.getVisitDate() != null) {

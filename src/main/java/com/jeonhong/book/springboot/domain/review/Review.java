@@ -1,6 +1,7 @@
 package com.jeonhong.book.springboot.domain.review;
 
 import com.jeonhong.book.springboot.domain.BaseTimeEntity;
+import com.jeonhong.book.springboot.domain.Image.ReviewImage;
 import com.jeonhong.book.springboot.domain.place.Place;
 import com.jeonhong.book.springboot.domain.user.User;
 import jakarta.persistence.*;
@@ -8,6 +9,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
@@ -27,28 +31,28 @@ public class Review extends BaseTimeEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReviewImage> images = new ArrayList<>();
+
     private Integer rating;
     private LocalDate visitDate;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
-    private String imageUrl;
 
     @Builder
-    public Review(Place place, User user, Integer rating, LocalDate visitDate, String content, String imageUrl) {
+    public Review(Place place, User user, Integer rating, LocalDate visitDate, String content) {
         this.place = place;
         this.user = user;
         this.rating = rating;
         this.visitDate = visitDate;
         this.content = content;
-        this.imageUrl = imageUrl;
     }
 
     // 리뷰 수정 로직
-    public void update(Integer rating, String content, String imageUrl) {
+    public void update(Integer rating, String content) {
         this.rating = rating;
         this.content = content;
-        this.imageUrl = imageUrl;
     }
 
 }

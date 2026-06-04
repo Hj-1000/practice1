@@ -8,12 +8,15 @@ import com.jeonhong.book.springboot.web.dto.ReviewResponseDto;
 import com.jeonhong.book.springboot.web.dto.ReviewSaveRequestDto;
 import com.jeonhong.book.springboot.web.dto.ReviewUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
 
+@Log4j2
 @RequiredArgsConstructor
 @RestController
 public class ReviewApiController {
@@ -24,18 +27,20 @@ public class ReviewApiController {
     // 맛집 및 리뷰를 등록하는 api 엔드포인트
     @PostMapping("/api/v1/reviews")
     public Long save(@ModelAttribute ReviewSaveRequestDto requestDto,
+                     @RequestParam(value = "imageFiles", required = false) List<MultipartFile> imageFiles,
                      @LoginUser SessionUser user) throws IOException {
 
-        // 사용자가 리뷰 사진을 업로드했는지 검증한다
-        if(requestDto.getImageFile() != null && !requestDto.getImageFile().isEmpty()){
-            // S3의 'review-images'라는 폴더 경로로 사진을 업로드하고 공개 URL 주소를 받아옵니다.
-            String uploadedUrl = s3UploadService.upload(requestDto.getImageFile(), "review-images");
-            // 💡 2. 받아온 S3 URL 주소를 DTO의 imageUrl 필드에 밀어 넣습니다.
-            requestDto.setImageUrl(uploadedUrl);
+        // 💡 1. 여러 장의 사진을 업로드하고 URL 리스트를 받아옴
+        if(imageFiles != null && !imageFiles.isEmpty()){
+            List<String> uploadedUrls = s3UploadService.upload(imageFiles, "review-images");
+            // 💡 2. 이제 DTO에 URL 리스트를 담아야 합니다 (DTO 수정 필요!)
+            requestDto.setImageUrls(uploadedUrls);
         }
 
-        // SecurityConfig에서 인가된 사용자만 이 APU를 칠 수 있으므로
-        // @LoginUser를 통해 세션에서 안전하게 유저 이메일을 꺼내 서비스로 토스
+        log.info("들어온 requestDto: " + requestDto);
+        log.info("업로드할 파일 개수: {}", imageFiles.size());
+
+
         return reviewService.save(requestDto, user.getEmail());
     }
 

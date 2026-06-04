@@ -1,5 +1,7 @@
 package com.jeonhong.book.springboot.service.review;
 
+import com.jeonhong.book.springboot.domain.Image.ReviewImage;
+import com.jeonhong.book.springboot.domain.Image.ReviewImageRepository;
 import com.jeonhong.book.springboot.domain.place.Place;
 import com.jeonhong.book.springboot.domain.place.PlaceRepository;
 import com.jeonhong.book.springboot.domain.review.Review;
@@ -23,6 +25,7 @@ public class ReviewService {
     private final PlaceRepository placeRepository;
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository; //로그인한 유저를 맵핑하기 위해서
+    private final ReviewImageRepository reviewImageRepository;
 
     @Transactional
     public Long save(ReviewSaveRequestDto requestDto, String loginUserEmail) {
@@ -42,15 +45,24 @@ public class ReviewService {
                         .longitude(requestDto.getLongitude())
                         .build()));
 
-        // 3. 빌더 패턴을 이용해 Review 엔티티 생성하고 저장
+        // 💡 1. 리뷰 엔티티 생성 시 imageUrl 삭제 (빌더에서 제거)
         Review review = reviewRepository.save(Review.builder()
                 .place(place)
                 .user(user)
                 .rating(requestDto.getRating())
                 .visitDate(requestDto.getVisitDate())
                 .content(requestDto.getContent())
-                .imageUrl(requestDto.getImageUrl())
                 .build());
+
+        // 💡 2. 리스트로 넘어온 URL들을 반복문으로 저장
+        if (requestDto.getImageUrls() != null && !requestDto.getImageUrls().isEmpty()) {
+            for (String url : requestDto.getImageUrls()) {
+                reviewImageRepository.save(ReviewImage.builder()
+                        .imageUrl(url)
+                        .review(review) // 연관관계 설정
+                        .build());
+            }
+        }
 
         return review.getId();
     }
@@ -75,7 +87,7 @@ public class ReviewService {
                 .orElseThrow(()-> new IllegalArgumentException("해당 맛집 리뷰가 존재하지 않습니다. id=" + id));
 
         // 엔티티 내부의 update 메서드를 수행하여 더티 체킹(Dirty Checking)으로 DB 수정
-        review.update(requestDto.getRating(), requestDto.getContent(), requestDto.getImageUrl());
+        review.update(requestDto.getRating(), requestDto.getContent());
         return id;
     }
 

@@ -577,10 +577,14 @@ var main = {
         }
 
         // 💡 2. Mustache 화면에 새로 추가하신 <input type="file" id="imageFile">에서 실제 파일을 꺼냅니다.
-        var fileInput = $('#imageFile')[0];
-        if (fileInput && fileInput.files.length > 0) {
-            formData.append('imageFile', fileInput.files[0]); // 컨트롤러의 @RequestParam / @ModelAttribute 변수명과 일치해야 함
+        var fileInput = $('#imageFiles')[0];
+        if (fileInput.files.length > 0) {
+            for (var i = 0; i < fileInput.files.length; i++) {
+                // "imageFiles"라는 이름으로 계속 추가 (컨트롤러의 리스트명과 일치)
+                formData.append('imageFiles', fileInput.files[i]);
+            }
         }
+
 
         // 💡 3. 나머지 텍스트 필드들도 폼 데이터에 하나씩 꽂아줍니다.
         formData.append('kakaoPlaceId', kakaoPlaceId);

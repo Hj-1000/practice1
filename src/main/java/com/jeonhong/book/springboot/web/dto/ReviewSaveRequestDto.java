@@ -7,6 +7,8 @@ import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,15 +27,15 @@ public class ReviewSaveRequestDto {
     private Integer rating;
     private LocalDate visitDate;
     private String content;
-    private String imageUrl;
+    private List<String> imageUrls = new ArrayList<>();
 
     // 💡 프론트에서 전송한 실제 사진 파일을 임시로 담을 필드 추가
-    private MultipartFile imageFile;
+    private List<MultipartFile> imageFile;
 
     @Builder
     public ReviewSaveRequestDto(String kakaoPlaceId, String placeName, String category, String addressName,
                                 Double latitude, Double longitude, Integer rating, LocalDate visitDate,
-                                String content, String imageUrl, MultipartFile imageFile) {
+                                String content, List<String> imageUrls, List<MultipartFile> imageFiles) {
         this.kakaoPlaceId = kakaoPlaceId;
         this.placeName = placeName;
         this.category = category;
@@ -43,7 +45,8 @@ public class ReviewSaveRequestDto {
         this.rating = rating;
         this.visitDate = visitDate;
         this.content = content;
-        this.imageUrl = imageUrl;
-        this.imageFile = imageFile;
+        this.imageUrls = imageUrls;
+        this.imageFile = imageFiles;
     }
+
 }

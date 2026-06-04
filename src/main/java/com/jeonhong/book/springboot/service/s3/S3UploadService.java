@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -24,27 +26,29 @@ public class S3UploadService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String upload(MultipartFile multipartFile, String dirName) throws IOException {
+    // 💡 1. 파일 1개를 업로드하는 핵심 로직 (private으로 분리)
+    private String uploadSingleFile(MultipartFile multipartFile, String dirName) throws IOException {
         String fileName = dirName + "/" + UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
 
         try (InputStream inputStream = multipartFile.getInputStream()) {
-
-            // 💡 1. 라이브러리 규격에 맞는 ObjectMetadata 빌더를 생성하고 켄텐츠 타입을 세팅합니다.
             ObjectMetadata metadata = ObjectMetadata.builder()
                     .contentType(multipartFile.getContentType())
                     .build();
 
-            // 💡 2. 4번째 파라미터로 String 대신 생성한 metadata 객체를 전달합니다.
             S3Resource s3Resource = s3Template.upload(bucket, fileName, inputStream, metadata);
-
-            String uploadImageUrl = s3Resource.getURL().toString();
-            log.info("S3 업로드 성공! URL : {}", uploadImageUrl);
-
-            return uploadImageUrl;
-        } catch (IOException e) {
-            log.error("S3 파일 업로드 중 에러 발생", e);
-            throw new IOException("S3 업로드 실패", e);
+            return s3Resource.getURL().toString();
         }
+    }
+
+    // 💡 2. 컨트롤러에서 리스트를 넘기면 각각 호출해서 URL 리스트를 반환
+    public List<String> upload(List<MultipartFile> multipartFiles, String dirName) throws IOException {
+        List<String> uploadedUrls = new ArrayList<>();
+        for (MultipartFile file : multipartFiles) {
+            if (!file.isEmpty()) {
+                uploadedUrls.add(uploadSingleFile(file, dirName));
+            }
+        }
+        return uploadedUrls;
     }
 
 }
