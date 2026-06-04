@@ -39,3 +39,28 @@ graph LR
     User[Client] -->|HTTPS/443| Nginx[Nginx Reverse Proxy]
     Nginx -->|Proxy| App[Spring Boot]
     App -->|Data| DB[MariaDB / AWS RDS]
+
+
+
+💡 Troubleshooting (주요 이슈 해결)
+1. HTTPS 적용 및 리다이렉션 이슈
+
+이슈: 도메인 적용 후 외부 접속 시 ERR_CONNECTION_TIMED_OUT 발생 및 OAuth2 리다이렉트 실패
+
+해결:
+
+AWS 보안 그룹(Inbound)에 80/443 포트 규칙을 추가하여 통신 통로 확보
+
+Nginx 서버 블록에 SSL 인증서 경로를 설정하고, 80(HTTP) 요청을 443(HTTPS)으로 자동 리다이렉트 처리
+
+구글/네이버 OAuth2 설정 콘솔에 https://hj1000.duckdns.org 기반의 리다이렉트 URI를 추가하여 redirect_uri_mismatch 문제 해결
+
+2. 자동 배포 파이프라인 구축
+
+이슈: 수동 배포 시 서비스 다운타임 발생 및 환경 설정 파일 관리의 어려움
+
+해결:
+
+GitHub Actions를 사용하여 코드 푸시 시 자동으로 빌드 및 EC2 배포가 이루어지는 CI/CD 파이프라인 구축
+
+-Dspring.config.location 옵션을 활용하여 환경별(DB, OAuth) 설정 파일을 외부 경로에서 주입함으로써 보안성 강화
