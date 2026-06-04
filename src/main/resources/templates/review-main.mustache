@@ -20,7 +20,6 @@
         <div class="btn-group" role="group" aria-label="Category Filter">
             <input type="radio" class="btn-check" name="btnradio" id="filter-all" autocomplete="off" checked><label class="btn btn-outline-primary px-4" for="filter-all">전체보기 🗺️</label>
             <input type="radio" class="btn-check" name="btnradio" id="filter-food" autocomplete="off" data-category="음식점"><label class="btn btn-outline-primary px-4" for="filter-food">음식점 🍔</label>
-            <input type="radio" class="btn-check" name="btnradio" id="filter-cafe" autocomplete="off" data-category="카페"><label class="btn btn-outline-primary px-4" for="filter-cafe">카페 ☕</label>
             <input type="radio" class="btn-check" name="btnradio" id="filter-etc" autocomplete="off" data-category="기타"><label class="btn btn-outline-primary px-4" for="filter-etc">기타/여행 🎈</label>
         </div>
         <div>
@@ -35,43 +34,25 @@
                 <a href="/reviews/update/{{id}}" class="text-decoration-none" style="display: block; height: 100%;">
                     <div class="card h-100 shadow-sm border-0" style="border-radius: 12px; background-color: #fcfcfc;">
                         <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h5 class="card-title text-truncate font-weight-bold" style="max-width: 70%; color: #222;">
-                                    {{placeName}}
-                                </h5>
-                                <span class="badge bg-info text-dark" style="font-size: 0.8rem;">{{category}}</span>
-                            </div>
-
-                            <p class="card-text text-warning mb-1" style="font-size: 1.1rem;">
-                                {{ratingStars}}
-                            </p>
-
-                            <p class="card-text text-muted small mb-2">
-                                📍 {{addressName}}
-                            </p>
+                            <h5 class="card-title font-weight-bold" style="color: #222;">
+                                {{placeName}} <span class="badge bg-info text-dark" style="font-size: 0.7rem;">{{category}}</span>
+                            </h5>
+                            <p class="card-text text-warning mb-1" style="font-size: 1.1rem;">{{ratingStars}}</p>
+                            <p class="card-text text-muted small mb-3">📍 {{addressName}}</p>
 
                             <div class="card-img-top overflow-hidden" style="height: 200px; background-color: #eee;">
                                 {{#imageUrls.0}}
-                                    <div class="position-relative">
-                                        <img src="{{imageUrls.0}}" class="card-img-top" style="height: 200px; object-fit: cover;">
-                                        {{#imageUrls.1}} <span class="position-absolute top-0 end-0 m-2 badge bg-dark bg-opacity-75">
-            +{{.}}개
-        </span>
-                                        {{/imageUrls.1}}
-                                    </div>
+                                    <img src="{{imageUrls.0}}" class="w-100 h-100" style="object-fit: cover;" alt="이미지">
                                 {{/imageUrls.0}}
                                 {{^imageUrls.0}}
                                     <div class="d-flex align-items-center justify-content-center h-100 text-muted">
-                                        <i class="bi bi-image fs-1">이미지 없음</i>
+                                        <span>이미지 없음</span>
                                     </div>
                                 {{/imageUrls.0}}
                             </div>
 
-                            <hr class="my-2" style="border-top: 1px dashed #ddd;">
-
-                            <p class="card-text text-dark text-break" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: 4.5rem; line-height: 1.5;">
-                                {{content}}
-                            </p>
+                            <hr class="my-3">
+                            <p class="card-text text-dark" style="min-height: 3rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">{{content}}</p>
                         </div>
                         <div class="card-footer bg-transparent border-top-0 text-end">
                             <small class="text-muted">🕒 방문일: {{visitDate}}</small>
@@ -80,15 +61,11 @@
                 </a>
             </div>
         {{/reviews}}
-
     </div>
-    {{^reviews}}
-        <div class="col-12 py-5 text-center d-flex justify-content-center align-items-center">
-            <p class="text-muted fs-5 m-0 w-100">
-                아직 기록된 맛집이 없습니다. 첫 소중한 기억을 남겨보세요! 🍽️
-            </p>
-        </div>
-    {{/reviews}}
+
+    <div id="no-reviews-message" class="col-12 py-5 text-center" style="display:none;">
+        <p class="text-muted fs-5 m-0">주변에 기록된 맛집이 없습니다. 🍽️</p>
+    </div>
 </div>
 
 {{>layout/footer}}

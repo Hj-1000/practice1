@@ -32,6 +32,9 @@ public class ReviewResponseDto {
         this.imageUrls = entity.getImages().stream()
                 .map(image -> image.getImageUrl())
                 .collect(Collectors.toList());
+        // 💡 여기서 로그를 찍어보세요!
+        System.out.println("DTO 생성 중 - 이미지 URL 개수: " + (this.imageUrls != null ? this.imageUrls.size() : "null"));
+        // ... 기존 코드 ...
 
         // 날짜 예쁘게 변환 (예: 2026.06.02)
         if (entity.getVisitDate() != null) {

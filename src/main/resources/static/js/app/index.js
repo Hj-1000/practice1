@@ -316,8 +316,8 @@ var main = {
         // [안전성 확보] 마커 이미지 경로를 카카오의 공식 기본 붉은 핀과 검증된 에셋 주소로 세팅합니다.
         var imageSrcs = {
             '음식점': 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 빨간 핀
-            '카페': 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',     // 별 모양 핀
-            '기타': 'https://t1.daumcdn.net/mapjsapi/images/2x/marker.png'                      // 카카오 기본 푸른 핀
+            '기타': 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',     // 별 모양 핀
+            // '기타': 'https://t1.daumcdn.net/mapjsapi/images/2x/marker.png'                      // 카카오 기본 푸른 핀
         };
 
         for (var i = 0; i < reviewList.length; i++) {
@@ -505,45 +505,45 @@ var main = {
     // [추가] 받아온 주변 맛집 데이터를 기반으로 카드를 그려주는 DOM 조작 로직
     renderReviewCards: function (reviews) {
         var cardList = $('#review-card-list');
-        var noMessage = $('#no-reviews-message');
 
         cardList.empty(); // 원래 뿌려져 있던 mustache 서버 렌더링 카드 파괴
 
         if (!reviews || reviews.length === 0) {
-            cardList.hide();
-            noMessage.show();
+            cardList.append('<div class="col-12 py-5 text-center text-muted">주변에 기록된 맛집이 없습니다.</div>');
             return;
         }
 
-        noMessage.hide();
-        cardList.show();
-
-        // ReviewResponseDto 스펙에 맞춰 필드 출력 조립
         reviews.forEach(function (review) {
+            // 💡 이미지 처리 로직 추가
+            var imageHtml = '';
+            if (review.imageUrls && review.imageUrls.length > 0) {
+                imageHtml = `
+                <div class="card-img-top overflow-hidden" style="height: 200px; background-color: #eee;">
+                    <img src="${review.imageUrls[0]}" class="w-100 h-100" style="object-fit: cover;" alt="리뷰 이미지">
+                </div>
+            `;
+            } else {
+                imageHtml = `
+                <div class="card-img-top overflow-hidden d-flex align-items-center justify-content-center" style="height: 200px; background-color: #eee; color: #aaa;">
+                    <span>이미지 없음</span>
+                </div>
+            `;
+            }
+
             var cardHtml =
                 '<div class="col mb-4">' +
                 '    <a href="/reviews/update/' + review.id + '" class="text-decoration-none" style="display: block; height: 100%;">' +
                 '        <div class="card h-100 shadow-sm border-0" style="border-radius: 12px; background-color: #fcfcfc;">' +
                 '            <div class="card-body">' +
-                '                <div class="d-flex justify-content-between align-items-start mb-2">' +
-                '                    <h5 class="card-title text-truncate font-weight-bold" style="max-width: 70%; color: #222;">' +
-                review.placeName +
-                '                    </h5>' +
-                '                    <span class="badge bg-info text-dark" style="font-size: 0.8rem;">' + review.category + '</span>' +
-                '                </div>' +
-                '                <p class="card-text text-warning mb-1" style="font-size: 1.1rem;">' +
-                (review.ratingStars ? review.ratingStars : '') +
-                '                </p>' +
-                '                <p class="card-text text-muted small mb-2">' +
-                '                    📍 ' + review.addressName +
-                '                </p>' +
-                '                <hr class="my-2" style="border-top: 1px dashed #ddd;">' +
-                '                <p class="card-text text-dark text-break" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: 4.5rem; line-height: 1.5;">' +
-                review.content +
-                '                </p>' +
+                '                <h5 class="card-title font-weight-bold" style="color: #222;">' + review.placeName + ' <span class="badge bg-info text-dark" style="font-size: 0.7rem;">' + review.category + '</span></h5>' +
+                '                <p class="card-text text-warning mb-1" style="font-size: 1.1rem;">' + (review.ratingStars || '') + '</p>' +
+                '                <p class="card-text text-muted small mb-3">📍 ' + review.addressName + '</p>' +
+                imageHtml + // 💡 여기에 사진 삽입
+                '                <hr class="my-3">' +
+                '                <p class="card-text text-dark" style="min-height: 3rem;">' + review.content + '</p>' +
                 '            </div>' +
                 '            <div class="card-footer bg-transparent border-top-0 text-end">' +
-                '                <small class="text-muted">🕒 방문일: ' + (review.visitDate ? review.visitDate : '') + '</small>' +
+                '                <small class="text-muted">🕒 방문일: ' + (review.visitDate || '') + '</small>' +
                 '            </div>' +
                 '        </div>' +
                 '    </a>' +

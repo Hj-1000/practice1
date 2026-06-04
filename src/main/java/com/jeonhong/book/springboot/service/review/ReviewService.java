@@ -12,12 +12,14 @@ import com.jeonhong.book.springboot.web.dto.ReviewResponseDto;
 import com.jeonhong.book.springboot.web.dto.ReviewSaveRequestDto;
 import com.jeonhong.book.springboot.web.dto.ReviewUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Log4j2
 @RequiredArgsConstructor
 @Service
 public class ReviewService {
@@ -98,8 +100,21 @@ public class ReviewService {
         reviewRepository.delete(review);
     }
 
+    @Transactional(readOnly = true)
     public List<ReviewResponseDto> findNearby(double lat, double lng, double radius) {
-        return reviewRepository.findNearbyReviews(lat, lng, radius).stream()
+        // 1. 네이티브 쿼리로 리뷰 리스트 조회
+        List<Review> reviews = reviewRepository.findNearbyReviews(lat, lng, radius);
+
+        // 2. 각 리뷰에 대해 이미지가 로드되도록 강제 호출 (HibernateProxy 해제)
+        reviews.forEach(review -> review.getImages().size());
+
+        reviews.forEach(review -> {
+            int size = review.getImages().size();
+            log.info("리뷰 ID: {} 의 이미지 개수: {}", review.getId(), size);
+        });
+
+        // 3. DTO 변환
+        return reviews.stream()
                 .map(ReviewResponseDto::new)
                 .collect(Collectors.toList());
     }
