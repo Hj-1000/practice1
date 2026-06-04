@@ -33,13 +33,15 @@ public class ReviewApiController {
         // 💡 1. 여러 장의 사진을 업로드하고 URL 리스트를 받아옴
         if(imageFiles != null && !imageFiles.isEmpty()){
             List<String> uploadedUrls = s3UploadService.upload(imageFiles, "review-images");
-            // 💡 2. 이제 DTO에 URL 리스트를 담아야 합니다 (DTO 수정 필요!)
             requestDto.setImageUrls(uploadedUrls);
+
+            // 💡 로그를 if문 안으로 옮기면 안전합니다!
+            log.info("업로드할 파일 개수: {}", imageFiles.size());
+        } else {
+            log.info("업로드된 파일이 없습니다.");
         }
 
-        log.info("들어온 requestDto: " + requestDto);
-        log.info("업로드할 파일 개수: {}", imageFiles.size());
-
+        log.info("들어온 requestDto: {}", requestDto);
 
         return reviewService.save(requestDto, user.getEmail());
     }
