@@ -135,18 +135,8 @@ Geolocation API는 HTTPS 환경에서만 동작
 - 배포 환경에서도 GPS 기반 위치 조회 가능
 
 ---
-<img width="1152" height="648" alt="Image" src="https://github.com/user-attachments/assets/25db1ffe-e152-43dc-a540-6b751cc944f2" />
 ## 🔄 CI/CD Pipeline
-
-```mermaid
-graph LR
-    Dev[Developer] --> GitHub
-    GitHub --> Actions[GitHub Actions]
-    Actions --> EC2[AWS EC2]
-    EC2 --> Nginx
-    Nginx --> SpringBoot[Spring Boot]
-```
-
+<img width="1152" height="648" alt="Image" src="https://github.com/user-attachments/assets/25db1ffe-e152-43dc-a540-6b751cc944f2" />
 ---
 
 ## 📚 What I Learned
