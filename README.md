@@ -30,14 +30,11 @@
 * **지도 통합:** Kakao Maps API를 활용한 맛집 위치 시각화 및 마커 표시
 * **맛집 기록:** 게시글 CRUD 및 사용자별 개인화된 맛집 관리
 
+---
+
 ## 🏗 System Architecture
 
-```mermaid
-graph LR
-    User[Client] -->|HTTPS/443| Nginx[Nginx Reverse Proxy]
-    Nginx -->|Proxy| App[Spring Boot]
-    App -->|Data| DB[MariaDB / AWS RDS]
-```
+<img width="1152" height="648" alt="Image" src="https://github.com/user-attachments/assets/f4b93172-109e-4b0a-a20e-b4b86fe8ca7a" />
 
 ---
 
@@ -134,9 +131,6 @@ Geolocation API는 HTTPS 환경에서만 동작
 
 - 배포 환경에서도 GPS 기반 위치 조회 가능
 
----
-## 🔄 CI/CD Pipeline
-<img width="1152" height="648" alt="Image" src="https://github.com/user-attachments/assets/25db1ffe-e152-43dc-a540-6b751cc944f2" />
 ---
 
 ## 📚 What I Learned
