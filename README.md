@@ -22,6 +22,23 @@ https://github.com/Hj-1000/practice1
 
 ---
 
+## 📸 프로젝트 주요 화면 (Project Screenshots)
+### 1. 간편 로그인 시스템 (OAuth 2.0)
+Google 및 Naver OAuth 2.0 연동을 통해 사용자가 별도의 회원가입 과정 없이 안전하고 편리하게 로그인할 수 있도록 구현하였습니다.
+
+<img width="1393" height="501" alt="Login Page" src="https://github.com/user-attachments/assets/5cae2164-b40a-4d62-b38c-55a01d764f5c" />
+
+### 2. 지도 기반 맛집 검색
+원하는 지역(예: '서울역 맛집')을 검색하면, Kakao Map API를 활용하여 해당 위치의 실제 식당 정보를 지도 위에 직관적으로 표시합니다.
+
+<img width="1241" height="869" alt="Search Result" src="https://github.com/user-attachments/assets/b51aae68-ab50-4284-a93d-46685a60608e" />
+
+### 3. 반경 1km 이내 맛집 정렬 및 시각화
+'반경 1km' 버튼을 클릭하면, 현재 위치를 기준으로 설정 범위 내의 맛집을 정렬하여 보여줍니다. 또한 지도상에 1km 원형 범위를 시각적으로 표시하여 사용자의 편의성을 높였습니다.
+
+<img width="1105" height="870" alt="Radius Filter" src="https://github.com/user-attachments/assets/18528a86-c6b7-4819-8149-ddd8363c75d2" />
+---
+
 ## 🛠 Tech Stack
 
 ### Backend
