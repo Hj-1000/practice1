@@ -4,7 +4,21 @@
 
 # 📍 맛집 기록 서비스 (My Gourmet Map)
 
-사용자의 현재 위치를 기반으로 내가 등록한 식당을 지도에 기록하고 관리하는 **위치 기반 웹 서비스**입니다. 단순한 CRUD 구현을 넘어, AWS 인프라 구축부터 HTTPS 보안 적용, CI/CD 자동화 배포까지 **백엔드 개발의 전 과정을 직접 설계하고 운영**한 프로젝트입니다.
+## 사용자의 현재 위치를 기반으로 내가 등록한 식당을 지도에 기록하고 관리하는 **위치 기반 웹 서비스**입니다. 단순한 CRUD 구현을 넘어, AWS 인프라 구축부터 HTTPS 보안 적용, CI/CD 자동화 배포까지 **백엔드 개발의 전 과정을 직접 설계하고 운영**한 프로젝트입니다.
+
+---
+
+## 🔗 Live Demo
+
+**Service URL**
+
+https://hj1000.duckdns.org
+
+**GitHub Repository**
+
+https://github.com/Hj-1000/practice1
+
+**호텔예약프로그램(팀프로젝트)**  https://github.com/Hj-1000/HotelProj
 
 ---
 
@@ -159,17 +173,4 @@ Geolocation API는 HTTPS 환경에서만 동작
 - 무중단 배포(Blue-Green) 적용
 - 인기 맛집 랭킹 기능 추가
 
----
 
-## 🔗 Live Demo
-
-**Service URL**
-
-https://hj1000.duckdns.org
-
-**GitHub Repository**
-
-https://github.com/Hj-1000/practice1
-
-팀프로젝트 (호텔예약프로그램)
-https://github.com/Hj-1000/HotelProj
