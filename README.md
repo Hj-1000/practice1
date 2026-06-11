@@ -189,7 +189,6 @@ Geolocation API는 HTTPS 환경에서만 동작
 - Docker 기반 컨테이너 환경 구성
 - QueryDSL 고도화
 - Prometheus + Grafana 모니터링 구축
-- 무중단 배포(Blue-Green) 적용
 - 인기 맛집 랭킹 기능 추가
 
 
